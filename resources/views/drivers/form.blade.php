@@ -20,7 +20,7 @@
                             </p>
                         </header>
 
-                        <form action="{{ isset($driver) ? route('drivers.update', $driver) : route('drivers.store') }}" method="POST" enctype="multipart/form-data" class="mt-6 space-y-6">
+                        <form id="driver-form" action="{{ isset($driver) ? route('drivers.update', $driver) : route('drivers.store') }}" method="POST" enctype="multipart/form-data" class="mt-6 space-y-6">
                             @csrf
                             @isset($driver)
                                 @method('PUT')
@@ -72,7 +72,9 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('vehicle_type')" />
                             </div>
 
-                            @include('components.custom.attachments')
+                            @isset($driver)
+                                @include('components.custom.attachments')
+                            @endisset
 
                             <div class="flex items-center gap-4 w-full flex-row justify-end">
                                 <button type="submit" class="mt-8 bg-gray-800 dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-white text-white font-bold py-2 px-4 rounded leading-tight">
@@ -101,4 +103,16 @@
             URL.revokeObjectURL(output.src)
         }
     };
+
+    var form = document.getElementById("driver-form");
+    var elements = form.elements;
+    var isApproved = @json(isset($driver->approved_at));
+    var isRejected = @json(isset($driver->rejected_at));
+
+    if (isApproved || isRejected)
+    for (var i = 0, len = elements.length; i < len; ++i) {
+        elements[i].readOnly = true;
+        elements[i].style.backgroundColor = "#e9ecef";
+        elements[i].style.cursor = "not-allowed";
+    }
 </script>

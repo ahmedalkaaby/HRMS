@@ -35,7 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/drivers/create', [DriverController::class, 'create'])->name('drivers.create');
     Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
     Route::get('/drivers/{driver}/edit', [DriverController::class, 'edit'])->name('drivers.edit');
+    Route::get('/drivers/{driver}/delete', [DriverController::class, 'delete'])->name('drivers.delete');
     Route::put('/drivers/{driver}', [DriverController::class, 'update'])->name('drivers.update');
+    Route::get('/drivers/{id}/{column}/approve-or-reject', [DriverController::class, 'approveOrReject'])->name('drivers.approve-or-reject');
 });
 
 Route::post('upload/{id}', [UploadController::class, 'store']);

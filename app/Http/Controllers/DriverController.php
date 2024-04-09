@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Driver;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
 
@@ -32,6 +33,21 @@ class DriverController extends Controller
         return view('drivers.form', compact('driver', 'attachments'));
     }
 
+    /**
+     * @param $id
+     * @param $column
+     * @return RedirectResponse
+     */
+    public function approveOrReject($id, $column): RedirectResponse
+    {
+        $driver = Driver::findOrFail($id);
+        $driver->$column = now();
+        $driver->save();
+
+        session()->flash('message', 'Driver has been ' . ($column === 'approved_at' ? 'approved' : 'rejected') .' successfully!');
+        return Redirect::back();
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated_data = $request->validate([
@@ -41,7 +57,6 @@ class DriverController extends Controller
             'driver_license' => 'date|nullable',
             'vehicle_type' => 'string|nullable',
             'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'documents.*' => 'file|max:2048',
         ]);
 
         $driver = new Driver();
@@ -60,21 +75,6 @@ class DriverController extends Controller
             ]);
 
             $avatar_attachment->save();
-        }
-
-        if ($request->hasFile('documents')) {
-            foreach ($request->file('documents') as $document) {
-                $document_path = $document->store('documents', 'public');
-
-                $document_attachment = new Attachment([
-                    'driver_id' => $driver->id,
-                    'file_path' => $document_path,
-                    'attachment_type' => 'document',
-                    'mime_type' => $document->getMimeType(),
-                ]);
-
-                $document_attachment->save();
-            }
         }
 
         session()->flash('message', 'New driver has been created successfully!');
@@ -117,10 +117,9 @@ class DriverController extends Controller
         }
 
         $documents = TemporaryFile::query()->where('folder', $request->documents)->get();
-        if (!isEmpty($documents)) {
+        if ($documents->count() > 0) {
             $path = storage_path('app/public/documents/tmp/' . $request->documents);
             $files = File::files($path);
-
             foreach ($files as $file) {
                 $tmp_path = 'documents/tmp/' . $request->documents . '/' . $file->getFilename();
                 $new_path = 'documents/' . $request->documents . '/' . $file->getFilename();
@@ -144,5 +143,19 @@ class DriverController extends Controller
         session()->flash('message', 'Driver information has been updated successfully!');
 
         return redirect()->route('drivers.index');
+    }
+
+    /**
+     * @param Request $request
+     * @param Driver $driver
+     * @return RedirectResponse
+     */
+    public function delete(Request $request, Driver $driver): RedirectResponse
+    {
+        $driver->delete();
+
+        session()->flash('message', 'Driver has been deleted successfully!');
+
+        return Redirect::back();
     }
 }
