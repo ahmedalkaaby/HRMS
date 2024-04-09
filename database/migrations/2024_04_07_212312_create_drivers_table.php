@@ -19,7 +19,9 @@ return new class extends Migration
             $table->date('driver_license')->nullable();
             $table->string('vehicle_type')->nullable();
             $table->dateTime('approved_at')->nullable();
+            $table->dateTime('rejected_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -20,6 +21,7 @@ use Illuminate\Support\Collection;
  * @property Carbon|null $driver_license
  * @property string|null $vehicle_type
  * @property Carbon|null $approved_at
+ * @property Carbon|null $rejected_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Collection<Attachment> $attachments
@@ -28,6 +30,7 @@ use Illuminate\Support\Collection;
 class Driver extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'drivers';
 
@@ -40,7 +43,8 @@ class Driver extends Model
         'dob',
         'driver_license',
         'vehicle_type',
-        'approved_at'
+        'approved_at',
+        'rejected_at',
     ];
 
     /**
@@ -48,6 +52,7 @@ class Driver extends Model
      */
     protected $casts = [
         'approved_at' => 'datetime',
+        'rejected_at' => 'datetime',
     ];
 
     /**
