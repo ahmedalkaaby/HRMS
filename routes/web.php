@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,5 +29,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/drivers', [DriverController::class, 'index'])->name('drivers.index');
+    Route::get('/drivers/create', [DriverController::class, 'create'])->name('drivers.create');
+    Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
+    Route::get('/drivers/{driver}/edit', [DriverController::class, 'edit'])->name('drivers.edit');
+    Route::put('/drivers/{driver}', [DriverController::class, 'update'])->name('drivers.update');
+});
+
+Route::post('upload/{id}', [UploadController::class, 'store']);
+Route::delete('delete/', [UploadController::class, 'remove']);
 
 require __DIR__.'/auth.php';
