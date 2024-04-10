@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,8 +36,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/drivers/create', [DriverController::class, 'create'])->name('drivers.create');
     Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
     Route::get('/drivers/{driver}/edit', [DriverController::class, 'edit'])->name('drivers.edit');
-    Route::get('/drivers/{driver}/delete', [DriverController::class, 'delete'])->name('drivers.delete');
     Route::put('/drivers/{driver}', [DriverController::class, 'update'])->name('drivers.update');
+});
+
+Route::middleware('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
+
+    Route::get('/drivers/{driver}/delete', [DriverController::class, 'delete'])->name('drivers.delete');
     Route::get('/drivers/{id}/{column}/approve-or-reject', [DriverController::class, 'approveOrReject'])->name('drivers.approve-or-reject');
 });
 

@@ -11,7 +11,6 @@ use App\Models\Driver;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use function PHPUnit\Framework\isEmpty;
 
 class DriverController extends Controller
 {

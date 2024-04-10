@@ -14,7 +14,9 @@
                             <th class="px-4 py-2">Driver License Date</th>
                             <th class="px-4 py-2">Vehicle Type</th>
                             <th class="px-4 py-2">Actions</th>
-                            <th class="px-4 py-2">!</th>
+                            @if(auth()->user()->role_id === 1)
+                                <th class="px-4 py-2">!</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -27,12 +29,16 @@
                                 <td class="border px-4 py-2">{{ $driver->vehicle_type }}</td>
                                 <td class="border px-4 py-2">
                                     <a href="{{ route('drivers.edit', $driver) }}" class="text-blue-800 hover:text-blue-400 dark:text-blue-500 dark:hover:text-blue-300 px-2">Edit/View</a>
-                                    <a href="{{ route('drivers.approve-or-reject', [$driver->id, 'approved_at']) }}" class="text-green-500 hover:text-green-800 dark:text-green-500 dark:hover:text-green-300 px-2">Approve</a>
-                                    <a href="{{ route('drivers.approve-or-reject', [$driver->id, 'rejected_at']) }}" class="text-red-500 hover:text-red-800 dark:text-red-500 dark:hover:text-red-300 px-2">Reject</a>
+                                    @if(auth()->user()->role_id === 1)
+                                        <a href="{{ route('drivers.approve-or-reject', [$driver->id, 'approved_at']) }}" class="text-green-500 hover:text-green-800 dark:text-green-500 dark:hover:text-green-300 px-2">Approve</a>
+                                        <a href="{{ route('drivers.approve-or-reject', [$driver->id, 'rejected_at']) }}" class="text-red-500 hover:text-red-800 dark:text-red-500 dark:hover:text-red-300 px-2">Reject</a>
+                                    @endif
                                 </td>
-                                <td class="border px-4 py-2">
-                                    <a href="{{ route('drivers.delete', $driver) }}" class="text-red-500 hover:text-red-800 dark:text-red-500 dark:hover:text-red-300 px-2">Delete</a>
-                                </td>
+                                @if(auth()->user()->role_id === 1)
+                                    <td class="border px-4 py-2">
+                                        <a href="{{ route('drivers.delete', $driver) }}" class="text-red-500 hover:text-red-800 dark:text-red-500 dark:hover:text-red-300 px-2">Delete</a>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
