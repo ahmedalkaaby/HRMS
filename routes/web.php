@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
     Route::get('/drivers/{driver}/edit', [DriverController::class, 'edit'])->name('drivers.edit');
     Route::put('/drivers/{driver}', [DriverController::class, 'update'])->name('drivers.update');
+    Route::get('/drivers/export', [DriverController::class, 'export'])->name('drivers.export');
 });
 
 Route::middleware('admin')->group(function () {
@@ -44,6 +45,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
+    Route::get('/users/export', [UserController::class, 'export'])->name('users.export');
 
     Route::get('/drivers/{driver}/delete', [DriverController::class, 'delete'])->name('drivers.delete');
     Route::get('/drivers/{id}/{column}/approve-or-reject', [DriverController::class, 'approveOrReject'])->name('drivers.approve-or-reject');
