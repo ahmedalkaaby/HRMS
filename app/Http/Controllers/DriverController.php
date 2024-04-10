@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DriversExport;
 use App\Models\Attachment;
 use App\Models\TemporaryFile;
 use Illuminate\Contracts\View\View;
@@ -11,6 +12,8 @@ use App\Models\Driver;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DriverController extends Controller
 {
@@ -156,5 +159,13 @@ class DriverController extends Controller
         session()->flash('message', 'Driver has been deleted successfully!');
 
         return Redirect::back();
+    }
+
+    /**
+     * @return BinaryFileResponse
+     */
+    public function export(): BinaryFileResponse
+    {
+        return Excel::download(new DriversExport(), 'HRMS-drivers-' . now()->toDateString() .'.xlsx');
     }
 }

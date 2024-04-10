@@ -4,6 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Users') }}
             </h2>
+            <a href="{{ route('users.export') }}" class="bg-green-700 dark:bg-gray-200 hover:bg-green-500 dark:hover:bg-white text-white font-bold py-2 px-4 rounded leading-tight">
+                Export Users
+            </a>
         </div>
     </x-slot>
 
@@ -32,7 +35,7 @@
                                     <td class="border px-4 py-2">{{ $user->name }}</td>
                                     <td class="border px-4 py-2">{{ $user->email }}</td>
                                     <td class="border px-4 py-2 font-bold text-green-600">{{ $user->role->name }}</td>
-                                    <td class="border px-4 py-2">
+                                    <td class="border px-4 py-2 flex justify-around">
                                         <a href="{{ route('users.edit', $user) }}" class="text-blue-800 hover:text-blue-400 dark:text-blue-500 dark:hover:text-blue-300">Edit</a>
                                     </td>
                                     <td class="border px-4 py-2">
