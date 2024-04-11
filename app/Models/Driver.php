@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Class Driver
@@ -31,6 +33,7 @@ class Driver extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use LogsActivity;
 
     protected $table = 'drivers';
 
@@ -69,5 +72,16 @@ class Driver extends Model
     public function avatar(): HasOne
     {
         return $this->hasOne(Attachment::class)->where('attachment_type', 'avatar');
+    }
+
+    /**
+     * @return LogOptions
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}")
+            ->logAll()
+            ->logOnlyDirty();
     }
 }
