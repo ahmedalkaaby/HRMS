@@ -47,13 +47,11 @@ Route::middleware('admin')->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
     Route::get('/users/export', [UserController::class, 'export'])->name('users.export');
+    Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
+    Route::get('/activities/export', [ActivityController::class, 'export'])->name('activities.export');
 
     Route::get('/drivers/{driver}/delete', [DriverController::class, 'delete'])->name('drivers.delete');
     Route::get('/drivers/{id}/{column}/approve-or-reject', [DriverController::class, 'approveOrReject'])->name('drivers.approve-or-reject');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 });
 
 Route::post('upload/{id}', [UploadController::class, 'store']);

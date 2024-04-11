@@ -4,9 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Activities') }}
             </h2>
-{{--            <a href="{{ route('activities.export') }}" class="bg-green-700 dark:bg-gray-200 hover:bg-green-500 dark:hover:bg-white text-white font-bold py-2 px-4 rounded leading-tight">--}}
-{{--                Export Activities--}}
-{{--            </a>--}}
+            <a href="{{ route('activities.export') }}" class="bg-green-700 dark:bg-gray-200 hover:bg-green-500 dark:hover:bg-white text-white font-bold py-2 px-4 rounded leading-tight">
+                Export Activities
+            </a>
         </div>
     </x-slot>
 
