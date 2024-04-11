@@ -76,6 +76,16 @@
                                 @include('components.custom.attachments')
                             @endisset
 
+                            @if($attachments)
+                                <div class="flex justify-around grid grid-cols-2">
+                                    @foreach($attachments as $attachment)
+                                        @if (str_contains($attachment->mime_type, "image") !== false)
+                                            <img class="p-8" src="{{asset('storage/' . $attachment->file_path)}}" alt="img">
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+
                             <div class="flex items-center gap-4 w-full flex-row justify-end">
                                 <button type="submit" class="mt-8 bg-gray-800 dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-white text-white font-bold py-2 px-4 rounded leading-tight">
                                     {{ isset($driver) ? 'Update' : 'Create' }} Driver
