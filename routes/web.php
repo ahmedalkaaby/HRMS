@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,10 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/drivers/{driver}/delete', [DriverController::class, 'delete'])->name('drivers.delete');
     Route::get('/drivers/{id}/{column}/approve-or-reject', [DriverController::class, 'approveOrReject'])->name('drivers.approve-or-reject');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 });
 
 Route::post('upload/{id}', [UploadController::class, 'store']);
